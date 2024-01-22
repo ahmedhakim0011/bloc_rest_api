@@ -45,7 +45,7 @@ class Users {
   String? image;
   String? bloodGroup;
   int? height;
-  double? weight;
+  dynamic weight;
   String? eyeColor;
   Hair? hair;
   String? domain;

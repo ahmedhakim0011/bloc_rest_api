@@ -12,21 +12,22 @@ class Users extends StatefulWidget {
 class _UsersState extends State<Users> {
   @override
   void initState() {
-    // TODO: implement initState
-    super.initState();
-WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
-      context.read()<UsersCubit>().getUsers();
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+      context.read<UsersCubit>().getUsers();
 
 });
+    super.initState();
+
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(title: const Text("Users"),),
       body: BlocConsumer<UsersCubit, UsersState>(
           builder: (context, state) {
             if (state is UsersDetailsLoading) {
-              return const CircularProgressIndicator();
+              return const Center(child: CircularProgressIndicator());
             }
             if (state is UsersDetailsError) {
               final error = state.error;
@@ -37,12 +38,17 @@ WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
             if (state is UsersDetailsLoaded) {
               return ListView.builder(itemBuilder: (context, index) {
                 final user = state.usersModel.users![index];
-                return ListTile(
-                  title: Text(user.firstName.toString()),
+                return Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: ListTile(
+                    title: Text(user.firstName.toString()),
+                    subtitle: Text(user.address!.city.toString()),
+                    leading: Image.network(user.image.toString()),
+                  ),
                 );
               });
             }
-            return SizedBox();
+            return const SizedBox();
           },
           listener: (context, state) {}),
     );
