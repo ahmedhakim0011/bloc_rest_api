@@ -1,7 +1,10 @@
-import 'package:bloc_api_practice/bloc/bloc/users_bloc.dart';
+import 'package:bloc_api_practice/bloc/bloc/users_cubit.dart';
+import 'package:bloc_api_practice/bloc/cubit/login_cubit.dart';
 import 'package:bloc_api_practice/screens/users_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+
+import 'screens/login_screen.dart';
 
 void main() {
   runApp(const MyApp());
@@ -13,18 +16,20 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-   return BlocProvider(
-      create: (BuildContext context) => UsersCubit(),
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider(create: (_) => UsersCubit()),
+        BlocProvider(create: (_) => LoginCubit()),
+      ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
         title: 'Flutter Demo',
         theme: ThemeData(
-          colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
+          colorScheme: ColorScheme.fromSeed(seedColor: Colors.amber),
           useMaterial3: true,
         ),
-        home: const Users(),
+        home: const LoginScreen(),
       ),
     );
   }
 }
-
